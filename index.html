@@ -1,0 +1,397 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Lecture 15</title>
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/white.css">
+    <link rel="stylesheet" href="css/theme/custom.css">
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/github-gist.css">
+    <!-- Printing and PDF exports -->
+    <script>
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+    document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+</head>
+
+<body>
+    <div class="reveal" style="background-color: #fff;">
+        <div class="slides">
+            <section data-background-video="bgm.mp4" data-background-video-loop data-background-video-muted style="text-align: left;">
+                <h2 style="color: white">Python Programming</h2>
+                <h5 style="color: white">Lecture 15 Greedy Algorithm, Dynamic Programming</h5>
+            </section>
+            <section>
+                <section data-background="#2980b9" style="color: white">
+                    <h2 style="color: white">15.1 Greedy Algorithm</h2>
+                </section>
+                <section>
+                    <h5>Greedy Algorithm</h5>
+                    <ul>
+                        <li>A very simple problem-solving strategy</li>
+                        <li>So-called greedy algorithms are short-sighted, in that they make each choice in isolation, doing what looks good right here, right now. In many ways, eager or impatient might be better names for them.</li>
+                        <li>Example: The classroom scheduling problem</li>
+                    </ul>
+                </section>
+                <section>
+                    <ul>
+                        <li class="fragment">Suppose you have a classroom and want to hold as many classes here as possible. You get a list of classes.</li>
+                    </ul>
+                    <div class="fragment"><img data-src="cs1.png" style="height: 180pt"></div>
+                    <div class="fragment"><img data-src="cs2.png" style="height: 180pt"></div>
+                    <ul>
+                        <li class="fragment">You want to hold as many classes as possible in this classroom. How do you pick what set of classes to hold, so that you get the biggest set of classes possible?</li>
+                    </ul>
+                </section>
+                <section>
+                    <ul>
+                        <li class="fragment">Here's how the greedy algorithm works</li>
+                        <li class="fragment">Pick the class that ends the soonest. This is the first class you'll hold in this classroom.</li>
+                        <li class="fragment">Now, you have to pick a class that starts after the first class. Again, pick the class that ends the soonest. This is the second class you'll hold.</li>
+                    </ul>
+                    <div class="fragment"><img data-src="cs3.png" style="height: 180pt"></div>
+                </section>
+                <section>
+                    <h5>The 0-1 Knapsack Problem</h5>
+                    <ul>
+                        <li class="fragment">Suppose you're a greedy thief. You're in a store with a knapsack, and there are all these items you can steal. But you can only take what you can fit in your knapsack. The knapsack can hold 35 pounds.</li>
+                        <li class="fragment">You're trying to maximize the value of the items you put in your knapsack. What algorithm do you use?</li>
+                    </ul>
+                    <div class="fragment"><img data-src="k1.png" style="height: 180pt"></div>
+                </section>
+                <section>
+                    <ul>
+                        <li class="fragment">Your knapsack can hold 35 pounds of items. The stereo system is the most expensive, so you steal that.</li>
+                    </ul>
+                    <div class="fragment"><img data-src="k2.png" style="height: 180pt"></div>
+                    <ul>
+                        <li class="fragment">If you'd picked the laptop and the guitar instead, you could have had $3,500 worth of loot!</li>
+                    </ul>
+                    <div class="fragment"><img data-src="k3.png" style="height: 180pt"></div>
+                </section>
+                <section>
+                    <h5>The Set-covering Problem</h5>
+                    <ul>
+                        <li>Suppose you're starting a radio show. You want to reach listeners in all 50 states. You have to decide what stations to play on to reach all those listeners. It costs money to be on each station, so you're trying to minimize the number of stations you play on. You have a list of stations.</li>
+                    </ul>
+                    <div class="div-c">
+                        <div class="fragment"><img data-src="sc1.png" style="height: 220pt"></div>
+                    </div>
+                    <div class="div-d">
+                        <div class="fragment"><img data-src="sc2.png" style="height: 220pt"></div>
+                    </div>
+                </section>
+                <section>
+                    <ul>
+                        <li class="fragment">List every possible subset of stations. This is called the power set. There are $2^n$ possible subsets.</li>
+                        <li class="fragment">From these, pick the set with the smallest number of stations that covers all 50 states.</li>
+                    </ul>
+                    <div class="fragment"><img data-src="sc3.png" style="height: 180pt"></div>
+                    <ul>
+                        <li class="fragment">(Greedy) Pick the station that covers the most states that haven’t been covered yet. It's OK if the station covers some states that have been covered already.</li>
+                        <li class="fragment">Repeat until all the states are covered. $O(n^2)$</li>
+                    </ul>
+                </section>
+                <section>
+                    <h5>The Traveling Salesman Problem (TSP)</h5>
+                    <ul>
+                        <li>Given a list of cities and the distances between each pair of cities, what is the shortest possible route that visits each city exactly once and returns to the origin city?</li>
+                    </ul>
+                    <div class="fragment"><img data-src="tsp1.png" style="height: 180pt"></div>
+                    <div class="fragment"><img data-src="tsp2.png" style="height: 180pt"></div>
+                </section>
+                <section>
+                    <ul>
+                        <li>There are six total routes, two for each city you can start at.</li>
+                    </ul>
+                    <div class="fragment"><img data-src="tsp3.png" style="height: 300pt"></div>
+                    <ul>
+                        <li class="fragment">How many possible routes are there for six cities? If you guessed 720, you're right. 5,040 for 7 cities, 40,320 for 8 cities.</li>
+                        <li class="fragment">(Greedy) Arbitrarily pick a start city. Then, each time the salesperson has to pick the next city to visit, they pick the closest unvisited city.</li>
+                    </ul>
+                </section>
+            </section>
+            <section>
+                <section data-background="#2980b9" style="color: white">
+                    <h2 style="color: white">15.2 Dynamic Programming</h2>
+                </section>
+                <section>
+                    <h5>The 0-1 Knapsack Problem</h5>
+                    <ul>
+                        <li class="fragment">Suppose you're a greedy thief. You're in a store with a knapsack, and there are all these items you can steal. But you can only take what you can fit in your knapsack. The knapsack can hold 35 pounds.</li>
+                        <li class="fragment">You're trying to maximize the value of the items you put in your knapsack. What algorithm do you use?</li>
+                    </ul>
+                    <div class="fragment"><img data-src="k1.png" style="height: 180pt"></div>
+                </section>
+                <section>
+                    <ul>
+                        <li class="fragment">The simplest algorithm is this: you try every possible set of goods and find the set that gives you the most value. This algorithm takes $O(2^n)$ time.</li>
+                    </ul>
+                    <div class="fragment"><img data-src="ss.png" style="height: 240pt"></div>
+                </section>
+                <section>
+                    <h5>Dynamic Programming</h5>
+                    <ul>
+                        <li class="fragment">Dynamic programming starts by solving subproblems and builds up to solving the big problem.</li>
+                        <li class="fragment">Every dynamic-programming algorithm starts with a grid. Here's a grid for the knapsack problem.</li>
+                    </ul>
+                    <div class="fragment"><img data-src="dp1.png" style="height: 240pt"></div>
+                    <ul>
+                        <li class="fragment">At each cell, there's a simple decision: do you steal the item or not?</li>
+                    </ul>
+                </section>
+                <section>
+                    <ul>
+                        <li class="fragment">You have only the guitar to choose from in the first row.</li>
+                    </ul>
+                    <div class="fragment"><img data-src="k1.png" style="height: 150pt"></div>
+                    <div class="fragment"><img data-src="dp2x.png" style="height: 240pt"></div>
+                </section>
+                <section>
+                    <ul>
+                        <li class="fragment">At every row, you can steal the item at that row or the items in the rows above it. So you can't choose to steal the laptop right now, but you can steal the stereo and/or the guitar.</li>
+                        <li class="fragment">The old max value was 1,500, but if you put the stereo in there instead, the value is 3,000!</li>
+                    </ul>
+                    <div class="fragment"><img data-src="k1.png" style="height: 150pt"></div>
+                    <div class="fragment"><img data-src="dp3.png" style="height: 240pt"></div>
+                </section>
+                <section>
+                    <ul>
+                        <li class="fragment">The laptop weighs 3 lb, so it won't fit into a 1 lb or a 2 lb knapsack. The estimate for the first two cells stays at $1,500.</li>
+                    </ul>
+                    <div class="fragment"><img data-src="k1.png" style="height: 150pt"></div>
+                    <div class="fragment"><img data-src="dp4.png" style="height: 240pt"></div>
+                </section>
+                <section>
+                    <ul>
+                        <li class="fragment">At 4 lb, things get really interesting. This is an important part. The current estimate is 3,000. You can put the laptop in the knapsack, but it's only worth 2,000. The laptop weighs only 3 lb, so you have 1 lb free! You could put something in this 1 lb. What’s the maximum value you can fit into 1 lb of space? Well, you've been calculating it all along.</li>
+                    </ul>
+                    <div class="fragment"><img data-src="dp5.png" style="height: 100pt"></div>
+                    <div class="fragment"><img data-src="dp6.png" style="height: 240pt"></div>
+                </section>
+                <section>
+                    <ul>
+                        <li>Assume $w_{1},\,w_{2},\,\ldots ,\,w_{n},\,W$ are strictly positive integers. Define $m[i,w]$ to be the maximum value that can be attained with weight less than or equal to $w$ using items up to $i$ (first $i$ items).</li>
+                        <li>We can define $m[i,w]$ recursively as follows: </li>
+                        <li>
+                            $m[0,\,w]=0$
+                        </li>
+                        <li>$m[i,\,w]=m[i-1,\,w]$ if $w_{i}>w$ (the new item > the current weight limit)</li>
+                        <li>$m[i,\,w]=\max(m[i-1,\,w],\,m[i-1,w-w_{i}]+v_{i})$ if $w_{i}\leqslant w$</li>
+                    </ul>
+                </section>
+                <section>
+                    <div class="fragment">
+                        <pre><code class="line-numbers" data-trim contenteditable data-noescape>
+def knapsack(weight, value, i, mw):
+    if i == 0:
+        if w[i] <= mw:
+            return value[i]
+        else:
+            return 0
+
+    without_i = knapsack(weight, value, i-1, mw)
+    if w[i] > mw:
+        return without_i
+    else:
+        with_i = value[i] + knapsack(weight, value, i-1, mw-w[i])
+
+    return max(with_i, without_i)
+</code></pre>
+                    </div>
+                                        <div class="fragment">
+                        <pre><code class="line-numbers" data-trim contenteditable data-noescape>
+w = [2, 2, 3, 1, 5, 2]
+v = [2, 3, 1, 5, 4, 3]
+print(knapsack(w,v,len(w)-1,10))
+</code></pre>
+                    </div>
+                </section>
+                <section>
+                    <ul>
+                        <li class="fragment">
+                            <p>What happens if you add an item?</p>
+                        </li>
+                    </ul>
+                    <div class="div-a">
+                    <div class="fragment"><img data-src="add1.png" style="height: 200pt"></div></div>
+                    <div class="div-b">
+                    <div class="fragment"><img data-src="add0.png" style="height: 200pt"></div></div>
+                    <div class="div-c">
+                    <div class="fragment"><img data-src="add2.png" style="height: 200pt"></div></div>
+                    <div class="div-d">
+                    <div class="fragment"><img data-src="add3.png" style="height: 200pt"></div></div>
+                </section>
+                <section>
+                    <ul>
+                        <li class="fragment">Would the value of a column ever go down? Is this possible? <b>No</b></li>
+                        <li class="fragment">What happens if you change the order of the rows? <b>The answer does not change</b></li>
+                        <li class="fragment">What happens if you add a smaller item?</li>
+                        <li class="fragment">Can you steal fractions of an item? <b>DP cannot solve it</b></li>
+                        <li class="fragment">Dynamic programming only works when each subproblem is discrete—when it doesn't depend on other subproblems.</li>
+                        <li class="fragment">The complexity of Dynamic programming is pseudo-polynomial (伪多项式时间). n(not real polynomial). An $O(nW)$ time algorithm is possible using dynamic programming; since the number $W$ only needs $log W$ bits to describe, this algorithm runs in pseudo-polynomial time.</li>
+                        <li class="fragment">Example: testing whether a number n is prime</li>
+                    </ul>
+                </section>
+            </section>
+                
+            <section>
+                <section data-background="#2c3e50" style="color: white; text-align: left;">
+                    <h2 style="color: white">Summary</h2>
+                    <ul>
+                        <li>Greedy Algorithm</li>
+                        <li>Dynamic Programming</li>
+                    </ul>
+                </section>
+            </section>
+        </div>
+    </div>
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+    <script>
+    // More info about config & dependencies:
+    // - https://github.com/hakimel/reveal.js#configuration
+    // - https://github.com/hakimel/reveal.js#dependencies
+    Reveal.initialize({
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 960,
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        // Bounds for smallest/largest possible scale to apply to content
+        minScale: 0.2,
+        maxScale: 1.5,
+
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Set default timing of 2 minutes per slide
+        defaultTiming: 120,
+
+        // Display the page number of the current slide
+        slideNumber: true,
+
+        // Push each slide change to the browser history
+        history: false,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autolaying embedded media (video/audio/iframe)
+        // - null: Media will only autoplay if data-autoplay is present
+        // - true: All media will autoplay, regardless of individual setting
+        // - false: No media will autoplay, regardless of individual setting
+        autoPlayMedia: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: Reveal.navigateNext,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // Hides the address bar on mobile devices
+        hideAddressBar: true,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Parallax background image
+        parallaxBackgroundImage: '', // e.g. "'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg'"
+
+        // Parallax background size
+        parallaxBackgroundSize: '', // CSS syntax, e.g. "2100px 900px"
+
+        // Number of pixels to move the parallax background per slide
+        // - Calculated automatically unless specified
+        // - Set to 0 to disable movement along an axis
+        parallaxBackgroundHorizontal: null,
+        parallaxBackgroundVertical: null,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        dependencies: [
+            { src: 'plugin/markdown/marked.js' },
+            { src: 'plugin/markdown/markdown.js' },
+            { src: 'plugin/notes/notes.js', async: true },
+            { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+            // Zoom in and out with Alt+click
+            { src: 'plugin/zoom-js/zoom.js', async: true },
+
+            // Speaker notes
+            { src: 'plugin/notes/notes.js', async: true },
+
+            // MathJax
+            { src: 'plugin/math/math.js', async: true },
+            { src: 'plugin/line-numbers/line-numbers.js' }
+        ]
+    });
+    </script>
+</body>
+
+</html>
