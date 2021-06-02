@@ -207,8 +207,8 @@ def knapsack(weight, value, i, mw):
                     </div>
                     <div class="fragment">
                         <pre><code class="line-numbers" data-trim contenteditable data-noescape>
-w = [2, 2, 3, 1, 5, 2]
-v = [2, 3, 1, 5, 4, 3]
+w=[2,2,6,5,4]
+v=[6,3,5,4,6]
 print(knapsack(w,v,len(w)-1,10))
 </code></pre>
                     </div>
@@ -216,27 +216,24 @@ print(knapsack(w,v,len(w)-1,10))
                 <section>
                                         <div class="fragment">
                         <pre><code class="line-numbers" data-trim contenteditable data-noescape>
-def knapsack(weight, value, i, mw):
-    for item in range(i):
-        if w[i] <= mw:
-            return value[i]
-        else:
-            return 0
 
-    without_i = knapsack(weight, value, i-1, mw)
-    if w[i] > mw:
-        return without_i
-    else:
-        with_i = value[i] + knapsack(weight, value, i-1, mw-w[i])
-
-    return max(with_i, without_i)
+def knapsack(w,v,i,mw):
+    res=[[-1 for j in range(mw+1)] for num in range(i+1)]
+    for j in range(mw+1):
+        res[0][j]=0
+    for i in range(1,i+1):
+        for j in range(1,mw+1):
+            res[i][j]=res[i-1][j]
+            if j>=w[i-1] and res[i][j] < res[i-1][j-w[i-1]]+v[i-1]:
+                res[i][j]=res[i-1][j-w[i-1]]+v[i-1]
+    return res[i][mw]
 </code></pre>
                     </div>
                     <div class="fragment">
                         <pre><code class="line-numbers" data-trim contenteditable data-noescape>
-w = [2, 2, 3, 1, 5, 2]
-v = [2, 3, 1, 5, 4, 3]
-print(knapsack(w,v,len(w)-1,10))
+w=[2,2,6,5,4]
+v=[6,3,5,4,6]
+print(knapsack(w,v,len(w),10))
 </code></pre>
                     </div>
                 </section>
