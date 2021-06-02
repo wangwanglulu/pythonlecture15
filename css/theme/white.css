@@ -174,7 +174,7 @@ font-size: 14pt;}
   display: block;
   padding: 5px;
   overflow: auto;
-  max-height: 400px;
+  max-height: 500px;
   word-wrap: normal; }
 
 .reveal table {
