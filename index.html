@@ -124,7 +124,7 @@
                 <section>
                     <h5>The 0-1 Knapsack Problem</h5>
                     <ul>
-                        <li class="fragment">Suppose you're a greedy thief. You're in a store with a knapsack, and there are all these items you can steal. But you can only take what you can fit in your knapsack. The knapsack can hold 4 pounds.</li>
+                        <li class="fragment">Suppose you're a greedy thief. You're in a store with a knapsack, and there are all these items you can steal. But you can only take what you can fit in your knapsack. The knapsack can hold 35 pounds.</li>
                         <li class="fragment">You're trying to maximize the value of the items you put in your knapsack. What algorithm do you use?</li>
                     </ul>
                     <div class="fragment"><img data-src="DPX.png" style="height: 180pt"></div>
@@ -322,14 +322,13 @@ def common_subsequence(s1,s2):
     longest=0
     for i in range(len(s1)):
         for j in range(len(s2)):
-            if i==0 or j==0:
-                if s1[i]==s2[j]:
+            <mark>if s1[i]==s2[j]:</mark>
+                if i==0 or j==0:
                     cell[i][j]=1
-            else: 
-                if s1[i]==s2[j]:
+                else:
                     cell[i][j]=cell[i-1][j-1]+1
-                <mark>else:</mark>
-                    <mark>cell[i][j]=max(cell[i-1][j],cell[i][j-1])</mark>
+            <mark>else:</mark>
+                <mark>cell[i][j]=max(cell[i-1][j],cell[i][j-1])</mark>
             if cell[i][j]>longest:
                 longest = cell[i][j]
     return longest
